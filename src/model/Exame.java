@@ -7,15 +7,25 @@ public class Exame {
 	private Long id;
 	private String descricao;
 	private String dataExame;
+	private Paciente paciente;
 	
-	public Exame(Long id, String descricao, String dataExame) {
+	public Exame(Long id, String descricao, String dataExame, Paciente paciente) {
 		this.id = id;
 		this.descricao = descricao;
 		this.dataExame = dataExame;
+		this.paciente = paciente;
 	}
 
 	public Exame() {
 		
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	public Long getId() {
