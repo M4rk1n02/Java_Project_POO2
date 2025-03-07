@@ -11,8 +11,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import model.Exame;
 import model.Paciente;
 import service.PacienteService;
+import service.ExameService;
 
 public class TelaPrincipal extends JFrame{
 
@@ -26,21 +28,28 @@ public class TelaPrincipal extends JFrame{
 	private JMenu menuExame;
 	private JMenuItem menuItemAdicionarPaciente;
 	private JMenuItem menuItemAtualizarPaciente;
+	private JMenuItem menuItemAdicionarExame;
+	private JMenuItem menuItemAtualizarExame;
 	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneExames;
 	private JTable tablePacientes;
+	private JTable tableExames;
 	private PacienteService pacService;
+	private ExameService examService;
 	private JTabbedPane tabbed;
 	
 	
-	public TelaPrincipal(PacienteService pacService) {
+	public TelaPrincipal(ExameService examService, PacienteService pacService) {
+		this.examService = examService;
 		this.pacService = pacService;
-		setTitle("Gerência de Prontuários");
+		setTitle("Gerï¿½ncia de Prontuï¿½rios");
 		setSize(480,360);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
 		barraMenu = new JMenuBar();
+		
 		menuPaciente = new JMenu("Paciente");
 		barraMenu.add(menuPaciente);
 		menuItemAdicionarPaciente = new JMenuItem("Adicionar");
@@ -48,21 +57,45 @@ public class TelaPrincipal extends JFrame{
 		menuItemAtualizarPaciente = new JMenuItem("Atualizar");
 		menuPaciente.add(menuItemAdicionarPaciente);
 		menuPaciente.add(menuItemAtualizarPaciente);
+		
+		menuExame = new JMenu("Exame");
+		menuItemAdicionarExame = new JMenuItem("Adicionar");
+		menuItemAdicionarExame.addActionListener(e -> new TelaCadastrarExame(examService, this));
+		menuItemAtualizarExame = new JMenuItem("Atualizar");
+		menuExame.add(menuItemAdicionarExame);
+		menuExame.add(menuItemAtualizarExame);
+		
+		barraMenu.add(menuPaciente);
+		barraMenu.add(menuExame);
 		add(barraMenu, BorderLayout.NORTH);
 		
 		tablePacientes = new JTable();
 		scrollPane = new JScrollPane(tablePacientes);
+		
+		tableExames = new JTable();
+		scrollPaneExames = new JScrollPane(tableExames);
+		
 		tabbed = new JTabbedPane();
 		tabbed.addTab("Pacientes", scrollPane);
+		tabbed.addTab("Exames", scrollPaneExames);
+		
 		add(tabbed, BorderLayout.CENTER);
 		
 		loadTablePaciente();
+		loadTableExame();
 	}
 	
 	protected void loadTablePaciente() {
 		List<Paciente> itens = pacService.getPacientes();
 		System.out.println(itens);
 		tablePacientes.setModel(new TabelaPacienteModel(itens));
+	}
+
+	public void loadTableExame() {
+		// TODO Auto-generated method stub
+		List<Exame> itens = examService.getExames();
+		System.out.println(itens);
+		tableExames.setModel(new TabelaExameModel(itens));
 	}
 
 }
