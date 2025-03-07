@@ -3,6 +3,8 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,15 @@ public class ExameDAO implements GenericDAO<Exame, Long> {
 
     @Override
     public void add(Exame obj) {
+    	 String dataExame = obj.getData_exame();
+    	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    	 LocalDate localDate = LocalDate.parse(dataExame, formatter);
+    	 String dataParaInserir = localDate.toString();
+    	
         try (PreparedStatement pstm = db.getConnection()
-                .prepareStatement("INSERT INTO EXAMES (descricao, dataExame, paciente_id) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+                .prepareStatement("INSERT INTO EXAMES (descricao, data_exame, paciente_id) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             pstm.setString(1, obj.getDescricao());
-            pstm.setString(2, obj.getDataExame());
+            pstm.setString(2, dataParaInserir);
             pstm.setLong(3, obj.getPaciente().getId());
             pstm.executeUpdate();
         } catch (SQLException e) {
@@ -39,7 +46,7 @@ public class ExameDAO implements GenericDAO<Exame, Long> {
             if (rs.next()) {
                 PacienteDAO pacienteDAO = new PacienteDAO(db);
                 Paciente paciente = pacienteDAO.findByID(rs.getLong("paciente_id"));
-                return new Exame(rs.getLong("id"), rs.getString("descricao"), rs.getString("dataExame"), paciente);
+                return new Exame(rs.getLong("id"), rs.getString("descricao"), rs.getString("data_exame"), paciente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,9 +66,9 @@ public class ExameDAO implements GenericDAO<Exame, Long> {
 
     @Override
     public void update(Exame obj) {
-        try (PreparedStatement pstm = db.getConnection().prepareStatement("UPDATE EXAMES SET descricao = ?, dataExame = ?, paciente_id = ? WHERE id = ?")) {
+        try (PreparedStatement pstm = db.getConnection().prepareStatement("UPDATE EXAMES SET descricao = ?, data_exame = ?, paciente_id = ? WHERE id = ?")) {
             pstm.setString(1, obj.getDescricao());
-            pstm.setString(2, obj.getDataExame());
+            pstm.setString(2, obj.getData_exame());
             pstm.setLong(3, obj.getPaciente().getId());
             pstm.setLong(4, obj.getId());
             pstm.executeUpdate();
@@ -74,11 +81,11 @@ public class ExameDAO implements GenericDAO<Exame, Long> {
     public List<Exame> getAll() {
         List<Exame> exames = new ArrayList<>();
         try (PreparedStatement pstm = db.getConnection().prepareStatement("SELECT * FROM EXAMES");
-             ResultSet rs = pstm.executeQuery()) {
+        	ResultSet rs = pstm.executeQuery()) {
             while (rs.next()) {
                 PacienteDAO pacienteDAO = new PacienteDAO(db);
                 Paciente paciente = pacienteDAO.findByID(rs.getLong("paciente_id"));
-                Exame exame = new Exame(rs.getLong("id"), rs.getString("descricao"), rs.getString("dataExame"), paciente);
+                Exame exame = new Exame(rs.getLong("id"), rs.getString("descricao"), rs.getString("data_exame"), paciente);
                 exames.add(exame);
             }
         } catch (SQLException e) {

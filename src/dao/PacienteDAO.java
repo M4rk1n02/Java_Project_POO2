@@ -35,8 +35,16 @@ public class PacienteDAO implements GenericDAO<Paciente, Long>{
 
 	@Override
 	public Paciente findByID(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		 try (PreparedStatement pstm = db.getConnection().prepareStatement("SELECT * FROM PACIENTES WHERE id = ?")) {
+		        pstm.setLong(1, id);
+		        ResultSet rs = pstm.executeQuery();
+		        if (rs.next()) {
+		            return new Paciente(rs.getLong("id"), rs.getString("cpf"), rs.getString("nome"));
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return null;  
 	}
 
 	@Override

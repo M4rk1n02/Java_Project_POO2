@@ -42,8 +42,14 @@ public class TabelaExameModel extends AbstractTableModel {
 		return switch(columnIndex) {
         case 0 -> exame.getId();
         case 1 -> exame.getDescricao();
-        case 2 -> exame.getDataExame();
-        case 3 -> exame.getPaciente().getNome();
+        case 2 -> exame.getData_exame();
+        case 3 -> {
+            Paciente paciente = exame.getPaciente();
+            if (paciente != null) {
+                yield paciente.getNome();
+            } else {
+                yield "Paciente não associado";             }
+        }
         default -> null;
 		};
 	};

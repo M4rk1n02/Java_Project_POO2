@@ -6,13 +6,13 @@ public class Exame {
 
 	private Long id;
 	private String descricao;
-	private String dataExame;
+	private String data_exame;
 	private Paciente paciente;
 	
-	public Exame(Long id, String descricao, String dataExame, Paciente paciente) {
+	public Exame(Long id, String descricao, String data_exame, Paciente paciente) {
 		this.id = id;
 		this.descricao = descricao;
-		this.dataExame = dataExame;
+		this.data_exame = data_exame;
 		this.paciente = paciente;
 	}
 
@@ -44,12 +44,12 @@ public class Exame {
 		this.descricao = descricao;
 	}
 
-	public String getDataExame() {
-		return dataExame;
+	public String getData_exame() {
+		return data_exame;
 	}
 
-	public void setDataExame(String dataExame) {
-		this.dataExame = dataExame;
+	public void setData_exame(String data_exame) {
+		this.data_exame = data_exame;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class Exame {
 
 	@Override
 	public String toString() {
-		return "Exame [id=" + id + ", descricao=" + descricao + ", dataExame=" + dataExame + "]";
+		return "Exame [id=" + id + ", descricao=" + descricao + ", dataExame=" + data_exame + "]";
 	}
 	
 	
