@@ -34,6 +34,14 @@ public class TabelaExameModel extends AbstractTableModel {
 	public String getColumnName(int index) {
 		return colunas[index];
 	}
+	
+	public Exame getExameAt(int rowIndex) {
+		// TODO Auto-generated method stub
+		if (rowIndex >= 0 && rowIndex < exames.size()) {
+	        return exames.get(rowIndex);
+	    }
+	    return null;
+	};
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -52,6 +60,8 @@ public class TabelaExameModel extends AbstractTableModel {
         }
         default -> null;
 		};
-	};
+	}
+
+
 }
 

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import exception.ExameException;
 import model.Exame;
 import model.Paciente;
 import service.ExameService;
@@ -85,7 +86,12 @@ public class TelaCadastrarExame extends JDialog {
 
 		
 		Exame exame = new Exame(0L, descricao, dataExame, new Paciente(pacienteId, "", ""));
-		examService.adicionarExame(exame);
+		try {
+			examService.adicionarExame(exame);
+		} catch (ExameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JOptionPane.showMessageDialog(null, "Exame cadastrado com sucesso");
 
 		

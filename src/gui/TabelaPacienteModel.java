@@ -35,6 +35,14 @@ public class TabelaPacienteModel extends AbstractTableModel{
 	public String getColumnName(int index) {
 		return colunas[index];
 	}
+	
+	public Paciente getPacienteAt(int rowIndex) {
+		// TODO Auto-generated method stub
+		if (rowIndex >= 0 && rowIndex < pacientes.size()) {
+	        return pacientes.get(rowIndex);
+	    }
+	    return null;
+	};
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {

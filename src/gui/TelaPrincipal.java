@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import exception.ExameException;
+import exception.PacienteException;
 import model.Exame;
 import model.Paciente;
 import service.PacienteService;
@@ -28,8 +30,10 @@ public class TelaPrincipal extends JFrame{
 	private JMenu menuExame;
 	private JMenuItem menuItemAdicionarPaciente;
 	private JMenuItem menuItemAtualizarPaciente;
+	private JMenuItem menuItemDeletarPaciente;
 	private JMenuItem menuItemAdicionarExame;
 	private JMenuItem menuItemAtualizarExame;
+	private JMenuItem menuItemDeletarExame;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPaneExames;
 	private JTable tablePacientes;
@@ -42,7 +46,7 @@ public class TelaPrincipal extends JFrame{
 	public TelaPrincipal(ExameService examService, PacienteService pacService) {
 		this.examService = examService;
 		this.pacService = pacService;
-		setTitle("Ger�ncia de Prontu�rios");
+		setTitle("Gerencia de Prontuarios");
 		setSize(480,360);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,15 +59,24 @@ public class TelaPrincipal extends JFrame{
 		menuItemAdicionarPaciente = new JMenuItem("Adicionar");
 		menuItemAdicionarPaciente.addActionListener(e -> new TelaCadastrarPaciente(pacService, this));
 		menuItemAtualizarPaciente = new JMenuItem("Atualizar");
+		menuItemDeletarPaciente = new JMenuItem("Deletar");
+		menuItemDeletarPaciente.addActionListener(e -> deletarPaciente());
 		menuPaciente.add(menuItemAdicionarPaciente);
 		menuPaciente.add(menuItemAtualizarPaciente);
+		menuPaciente.add(menuItemDeletarPaciente);
 		
 		menuExame = new JMenu("Exame");
 		menuItemAdicionarExame = new JMenuItem("Adicionar");
 		menuItemAdicionarExame.addActionListener(e -> new TelaCadastrarExame(examService, this));
 		menuItemAtualizarExame = new JMenuItem("Atualizar");
+		menuItemDeletarExame = new JMenuItem("Deletar");
+		menuItemDeletarExame.addActionListener(e -> deletarExame());
 		menuExame.add(menuItemAdicionarExame);
 		menuExame.add(menuItemAtualizarExame);
+		
+		menuExame.add(menuItemAdicionarExame);
+        menuExame.add(menuItemAtualizarExame);
+        menuExame.add(menuItemDeletarExame);
 		
 		barraMenu.add(menuPaciente);
 		barraMenu.add(menuExame);
@@ -97,5 +110,53 @@ public class TelaPrincipal extends JFrame{
 		System.out.println(itens);
 		tableExames.setModel(new TabelaExameModel(itens));
 	}
+	
+	private void atualizarPaciente() {
+        loadTablePaciente();
+    }
 
+    private void atualizarExame() {
+        loadTableExame();
+    }
+
+    private void deletarPaciente() {
+    	int selectedRow = tablePacientes.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Tem certeza que deseja excluir este paciente?", "Confirmação", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                Paciente paciente = ((TabelaPacienteModel) tablePacientes.getModel()).getPacienteAt(selectedRow);
+                try {
+					pacService.deletarPaciente(paciente);
+				} catch (PacienteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                loadTablePaciente();
+            }
+        }
+    }
+
+    private void deletarExame() {
+    	int selectedRow = tableExames.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Tem certeza que deseja excluir este exame?", "Confirmação", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                Exame exame = ((TabelaExameModel) tableExames.getModel()).getExameAt(selectedRow);
+                try {
+					examService.deletarExame(exame);
+				} catch (ExameException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                loadTableExame();
+            }
+        }
+    }
+    
 }

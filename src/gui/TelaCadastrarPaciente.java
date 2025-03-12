@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import exception.PacienteException;
 import model.Paciente;
 import service.PacienteService;
 
@@ -71,7 +72,12 @@ public class TelaCadastrarPaciente extends JDialog{
 	
 	private void addPaciente() {
 		Paciente p = new Paciente(0L, txfCpf.getText(), txfNome.getText());
-		pacService.adicionarPaciente(p);
+		try {
+			pacService.adicionarPaciente(p);
+		} catch (PacienteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JOptionPane.showMessageDialog(null, "Paciente cadastrado com sucesso");
 		txfCpf.setText("");
 		txfNome.setText("");
