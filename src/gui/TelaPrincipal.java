@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -54,32 +55,35 @@ public class TelaPrincipal extends JFrame{
 		
 		barraMenu = new JMenuBar();
 		
-		menuPaciente = new JMenu("Paciente");
-		barraMenu.add(menuPaciente);
+		menuPaciente = new JMenu("Gerenciar Pacientes");
+				
 		menuItemAdicionarPaciente = new JMenuItem("Adicionar");
 		menuItemAdicionarPaciente.addActionListener(e -> new TelaCadastrarPaciente(pacService, this));
 		menuItemAtualizarPaciente = new JMenuItem("Atualizar");
+		menuItemAtualizarPaciente.addActionListener(e -> editarPaciente());
 		menuItemDeletarPaciente = new JMenuItem("Deletar");
 		menuItemDeletarPaciente.addActionListener(e -> deletarPaciente());
+		
 		menuPaciente.add(menuItemAdicionarPaciente);
 		menuPaciente.add(menuItemAtualizarPaciente);
 		menuPaciente.add(menuItemDeletarPaciente);
 		
-		menuExame = new JMenu("Exame");
+		barraMenu.add(menuPaciente);
+				
+		menuExame = new JMenu("Gerenciar Exames");		
+		
 		menuItemAdicionarExame = new JMenuItem("Adicionar");
 		menuItemAdicionarExame.addActionListener(e -> new TelaCadastrarExame(examService, this));
 		menuItemAtualizarExame = new JMenuItem("Atualizar");
 		menuItemDeletarExame = new JMenuItem("Deletar");
 		menuItemDeletarExame.addActionListener(e -> deletarExame());
+		
 		menuExame.add(menuItemAdicionarExame);
 		menuExame.add(menuItemAtualizarExame);
+		menuExame.add(menuItemDeletarExame);
 		
-		menuExame.add(menuItemAdicionarExame);
-        menuExame.add(menuItemAtualizarExame);
-        menuExame.add(menuItemDeletarExame);
-		
-		barraMenu.add(menuPaciente);
 		barraMenu.add(menuExame);
+		
 		add(barraMenu, BorderLayout.NORTH);
 		
 		tablePacientes = new JTable();
@@ -136,6 +140,16 @@ public class TelaPrincipal extends JFrame{
 				}
                 loadTablePaciente();
             }
+        }
+    }
+    
+    private void editarPaciente() {
+        int selectedRow = tablePacientes.getSelectedRow();
+        if (selectedRow != -1) {
+            Paciente paciente = ((TabelaPacienteModel) tablePacientes.getModel()).getPacienteAt(selectedRow);
+            new TelaEditarPaciente(pacService, this, paciente); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um paciente para editar.");
         }
     }
 

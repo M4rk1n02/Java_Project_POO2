@@ -71,6 +71,15 @@ public class TelaCadastrarPaciente extends JDialog{
 	}
 	
 	private void addPaciente() {
+		
+		String nome = txfNome.getText().trim();
+	    String cpf = txfCpf.getText().trim();
+
+	    if (nome.isEmpty() || cpf.isEmpty()) {
+	    	JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	       
 		Paciente p = new Paciente(0L, txfCpf.getText(), txfNome.getText());
 		try {
 			pacService.adicionarPaciente(p);
@@ -78,6 +87,7 @@ public class TelaCadastrarPaciente extends JDialog{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		JOptionPane.showMessageDialog(null, "Paciente cadastrado com sucesso");
 		txfCpf.setText("");
 		txfNome.setText("");
