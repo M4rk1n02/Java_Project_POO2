@@ -52,6 +52,7 @@ public class TelaCadastrarPaciente extends JDialog{
 		painelForm.add(lblCpf);
 		painelForm.add(txfCpf);
 		add(painelForm, BorderLayout.CENTER);
+		
 		painelBotoes = new JPanel();
 		btnSair = new JButton("Sair");
 		btnSair.addActionListener(e -> fecharTela());
@@ -62,6 +63,7 @@ public class TelaCadastrarPaciente extends JDialog{
 		painelBotoes.add(btnLimpar);
 		painelBotoes.add(btnSair);
 		add(painelBotoes, BorderLayout.SOUTH);
+		
 		setModal(true);
 		setVisible(true);
 	}

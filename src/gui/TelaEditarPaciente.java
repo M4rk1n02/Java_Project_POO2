@@ -39,8 +39,6 @@ public class TelaEditarPaciente extends JDialog {
         setLayout(new BorderLayout());
 
         JPanel painelForm = new JPanel();
-        painelForm.setLayout(new GridLayout(2, 2));
-
         JLabel lblNome = new JLabel("Nome: ");
         JLabel lblCpf = new JLabel("CPF: ");
         txfNome = new JTextField(paciente.getNome(), 24);
