@@ -39,7 +39,7 @@ public class TelaCadastrarExame extends JDialog {
 	public TelaCadastrarExame(ExameService examService, TelaPrincipal main) {
 		this.examService = examService;
 		this.main = main;
-		setSize(360,200);
+		setSize(400, 200);
 		setResizable(false);
 		setTitle("Tela de Cadastro do Exame");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -65,18 +65,27 @@ public class TelaCadastrarExame extends JDialog {
 		btnSair = new JButton("Sair");
 		btnSair.addActionListener(e -> fecharTela());
 		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(e -> limparCampos());
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(e -> addExame());
 		painelBotoes.add(btnSalvar);
 		painelBotoes.add(btnLimpar);
 		painelBotoes.add(btnSair);
 		add(painelBotoes, BorderLayout.SOUTH);
+		
 		setModal(true);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
 	private void fecharTela() {
 		this.hide();
+	}
+	
+	private void limparCampos() {
+		txfDescricao.setText("");
+		txfDataExame.setText("");
+		txfPaciente.setText("");
 	}
 	
 	private void addExame() {

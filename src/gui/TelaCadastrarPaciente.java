@@ -37,7 +37,7 @@ public class TelaCadastrarPaciente extends JDialog{
 	public TelaCadastrarPaciente(PacienteService pacService, TelaPrincipal main) {
 		this.pacService = pacService;
 		this.main = main;
-		setSize(360,200);
+		setSize(400, 200);
 		setResizable(false);
 		setTitle("Tela de Cadastro de Paciente");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -57,6 +57,7 @@ public class TelaCadastrarPaciente extends JDialog{
 		btnSair = new JButton("Sair");
 		btnSair.addActionListener(e -> fecharTela());
 		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(e -> limparCampos());
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(e -> addPaciente());
 		painelBotoes.add(btnSalvar);
@@ -65,11 +66,17 @@ public class TelaCadastrarPaciente extends JDialog{
 		add(painelBotoes, BorderLayout.SOUTH);
 		
 		setModal(true);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
 	private void fecharTela() {
 		this.hide();
+	}
+	
+	private void limparCampos() {
+		txfNome.setText("");
+		txfCpf.setText("");
 	}
 	
 	private void addPaciente() {
@@ -81,6 +88,11 @@ public class TelaCadastrarPaciente extends JDialog{
 	    	JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
+	    
+	    if (!validarCpf(cpf)) {
+            JOptionPane.showMessageDialog(this, "CPF inválido! O CPF deve conter 11 dígitos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 	       
 		Paciente p = new Paciente(0L, txfCpf.getText(), txfNome.getText());
 		try {
@@ -95,5 +107,9 @@ public class TelaCadastrarPaciente extends JDialog{
 		txfNome.setText("");
 		main.loadTablePaciente();
 	}
+	
+	private boolean validarCpf(String cpf) {
+        return cpf.matches("\\d{11}");
+    }
 	
 }

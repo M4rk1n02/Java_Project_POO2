@@ -57,7 +57,7 @@ public class TelaPrincipal extends JFrame{
 		
 		barraMenu = new JMenuBar();
 		
-		menuPaciente = new JMenu("Gerenciar Pacientes");
+		menuPaciente = new JMenu("Pacientes");
 		menuPaciente.add(new JSeparator());
 		
 				
@@ -76,7 +76,7 @@ public class TelaPrincipal extends JFrame{
 		
 		barraMenu.add(menuPaciente);
 				
-		menuExame = new JMenu("Gerenciar Exames");	
+		menuExame = new JMenu("Exames");	
 		
 		
 		menuItemAdicionarExame = new JMenuItem("Adicionar");
