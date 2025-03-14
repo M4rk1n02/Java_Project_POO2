@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: 1.8.0_221 (Oracle Corporation)
+Main-Class: app.Aplicacao
+Class-Path: lib/mysql-connector-j-9.2.0.jar
+
