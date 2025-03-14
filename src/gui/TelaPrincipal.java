@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JSeparator;
+
 
 import exception.ExameException;
 import exception.PacienteException;
@@ -48,7 +50,7 @@ public class TelaPrincipal extends JFrame{
 		this.examService = examService;
 		this.pacService = pacService;
 		setTitle("Gerencia de Prontuarios");
-		setSize(480,360);
+		setSize(600,400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -56,6 +58,8 @@ public class TelaPrincipal extends JFrame{
 		barraMenu = new JMenuBar();
 		
 		menuPaciente = new JMenu("Gerenciar Pacientes");
+		menuPaciente.add(new JSeparator());
+		
 				
 		menuItemAdicionarPaciente = new JMenuItem("Adicionar");
 		menuItemAdicionarPaciente.addActionListener(e -> new TelaCadastrarPaciente(pacService, this));
@@ -67,29 +71,34 @@ public class TelaPrincipal extends JFrame{
 		menuPaciente.add(menuItemAdicionarPaciente);
 		menuPaciente.add(menuItemAtualizarPaciente);
 		menuPaciente.add(menuItemDeletarPaciente);
+		menuPaciente.add(new JSeparator());
+
 		
 		barraMenu.add(menuPaciente);
 				
-		menuExame = new JMenu("Gerenciar Exames");		
+		menuExame = new JMenu("Gerenciar Exames");	
+		
 		
 		menuItemAdicionarExame = new JMenuItem("Adicionar");
 		menuItemAdicionarExame.addActionListener(e -> new TelaCadastrarExame(examService, this));
-		menuItemAtualizarExame = new JMenuItem("Atualizar");
 		menuItemDeletarExame = new JMenuItem("Deletar");
 		menuItemDeletarExame.addActionListener(e -> deletarExame());
 		
 		menuExame.add(menuItemAdicionarExame);
-		menuExame.add(menuItemAtualizarExame);
 		menuExame.add(menuItemDeletarExame);
+		menuExame.add(new JSeparator());
+
 		
 		barraMenu.add(menuExame);
 		
-		add(barraMenu, BorderLayout.NORTH);
+		setJMenuBar(barraMenu);
 		
 		tablePacientes = new JTable();
+		tablePacientes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		scrollPane = new JScrollPane(tablePacientes);
 		
 		tableExames = new JTable();
+		tableExames.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		scrollPaneExames = new JScrollPane(tableExames);
 		
 		tabbed = new JTabbedPane();

@@ -1,8 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-
+import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -39,6 +38,7 @@ public class TelaEditarPaciente extends JDialog {
         setLayout(new BorderLayout());
 
         JPanel painelForm = new JPanel();
+        painelForm.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JLabel lblNome = new JLabel("Nome: ");
         JLabel lblCpf = new JLabel("CPF: ");
         txfNome = new JTextField(paciente.getNome(), 24);
@@ -52,6 +52,7 @@ public class TelaEditarPaciente extends JDialog {
         add(painelForm, BorderLayout.CENTER);
 
         JPanel painelBotoes = new JPanel();
+        painelBotoes.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> salvarAlteracoes());
         btnCancelar = new JButton("Cancelar");
@@ -74,6 +75,11 @@ public class TelaEditarPaciente extends JDialog {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
             return;
         }
+        
+        if (!validarCpf(novoCpf)) {
+            JOptionPane.showMessageDialog(this, "CPF inválido! O CPF deve conter 11 dígitos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         paciente.setNome(novoNome);
         paciente.setCpf(novoCpf);
@@ -87,6 +93,10 @@ public class TelaEditarPaciente extends JDialog {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar o paciente.");
             e.printStackTrace();
         }
+    }
+    
+    private boolean validarCpf(String cpf) {
+        return cpf.matches("\\d{11}");
     }
 
     private void fecharTela() {
